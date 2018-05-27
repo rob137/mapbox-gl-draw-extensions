@@ -2,10 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './examples/app.js',
+    entry: './index.js',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'mapbox-gl-draw-extensions.js'
+        filename: 'mapbox-gl-draw-extensions.js',
+        library: 'MapboxDraw',
+        libraryTarget: 'umd',
+        libraryExport: 'default'
     },
     node: {
         fs: "empty"
