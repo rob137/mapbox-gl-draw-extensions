@@ -4,8 +4,6 @@ import Constants from './constants';
 const classTypes = ['mode', 'feature', 'mouse'];
 
 export default function (ctx) {
-
-
     const buttonElements = {};
     let activeButton = null;
 

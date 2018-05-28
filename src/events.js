@@ -8,7 +8,6 @@ import objectToMode from './modes/object_to_mode';
 
 
 export default function (ctx) {
-
     const modes = Object.keys(ctx.options.modes).reduce((m, k) => {
         m[k] = objectToMode(ctx.options.modes[k]);
         return m;

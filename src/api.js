@@ -132,8 +132,8 @@ export default function (ctx, api) {
 
     api.delete = function (featureIds) {
         ctx.store.delete(featureIds, { silent: true });
-        // If we were in direct select mode and our selected feature no longer exists
-        // (because it was deleted), we need to get out of that mode.
+        // 如果我们处于`direct_select_mode`，则此时我们选择的feature 已经不存在了
+        // (因为它已经被删除了)，我们需要退出该mode.
         if (api.getMode() === Constants.modes.DIRECT_SELECT && !ctx.store.getSelectedIds().length) {
             ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
         } else {
@@ -145,8 +145,8 @@ export default function (ctx, api) {
 
     api.deleteAll = function () {
         ctx.store.delete(ctx.store.getAllIds(), { silent: true });
-        // If we were in direct select mode, now our selected feature no longer exists,
-        // so escape that mode.
+        // 如果我们处于`direct_select_mode`，则此时我们选择的feature 已经不存在了
+        // 则直接退出该 mode
         if (api.getMode() === Constants.modes.DIRECT_SELECT) {
             ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
         } else {
@@ -157,11 +157,11 @@ export default function (ctx, api) {
     };
 
     api.changeMode = function (mode, modeOptions = {}) {
-        // Avoid changing modes just to re-select what's already selected
+        // 使用`re-select`，而不是`changeMode`,避免因为重新改变modes造成的性能浪费
         if (mode === Constants.modes.SIMPLE_SELECT && api.getMode() === Constants.modes.SIMPLE_SELECT) {
             if (stringSetsAreEqual((modeOptions.featureIds || []), ctx.store.getSelectedIds())) return api;
-            // And if we are changing the selection within simple_select mode, just change the selection,
-            // instead of stopping and re-starting the mode
+            // 如果我们切换选择的都是`simple_select mode`，则直接切换。
+            // 不需要停止，重启mode
             ctx.store.setSelected(modeOptions.featureIds, { silent: true });
             ctx.store.render();
             return api;

@@ -1,6 +1,5 @@
 const { access_token } = require('./config');
 const minemap = require('./mine-map/minemap');
-// const MapboxDraw = require('./libs/mapbox-gl-draw');
 import MapboxDraw from '../index';
 
 // css 

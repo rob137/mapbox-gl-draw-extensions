@@ -1,5 +1,5 @@
 import throttle from './lib/throttle';
-import toDenseArray from './lib/to_dense_array';
+import toDenseArray from './lib/to_dense_array'; // 去除Array中的undefined
 import StringSet from './lib/string_set';
 import render from './render';
 import Constants from './constants';
@@ -33,6 +33,7 @@ export default class Store {
         this.render = throttle(render, 16, this);
         this.isDirty = false;
     }
+    // 创建 render batch,在返回的函数被调用之前，延迟渲染
     createRenderBatch() {
         const holdRender = this.render;
         let numRenders = 0;
@@ -47,10 +48,17 @@ export default class Store {
             }
         };
     }
+    /**
+     * 设置 store 状态 为 `dirty`
+     */
     setDirty() {
         this.isDirty = true;
         return this;
     }
+    /**
+     * 设置 `feature`的状态为`changed`
+     * @param {string} featureId 
+     */
     featureChanged(featureId) {
         this._changedFeatureIds.add(featureId);
         return this;
@@ -62,15 +70,28 @@ export default class Store {
         this._changedFeatureIds.clear();
         return this;
     }
+    /**
+     * 获取`store`中所有`feature`的`ids`
+     */
     getAllIds() {
         return this._featureIds.values();
     }
+    /**
+     * 添加一个`feature`至`store`.
+     * @param {Object} feature 
+     */
     add(feature) {
         this.featureChanged(feature.id);
         this._features[feature.id] = feature;
         this._featureIds.add(feature.id);
         return this;
     }
+    /**
+     * 
+     * @param {string | Array<string>} featureIds 
+     * @param {Object} options 
+     * @param {Object} options.silent 如果设置为true，则不会`fire`一个`event`;
+     */
     delete(featureIds, options = {}) {
         toDenseArray(featureIds).forEach(id => {
             if (!this._featureIds.has(id)) return;
@@ -104,6 +125,11 @@ export default class Store {
         });
         return this;
     }
+    /**
+     * 从当前选中的集合中删除`features`;
+     * @param {string|Array<string>} featureIds 
+     * @param {Object} options 
+     */
     deselect(featureIds, options = {}) {
         toDenseArray(featureIds).forEach(id => {
             if (!this._selectedFeatureIds.has(id)) return;
