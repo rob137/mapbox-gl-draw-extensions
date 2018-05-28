@@ -5,7 +5,7 @@ export default function (modeObject) {
 
     return function (ctx, startOpts = {}) {
         let state = {};
-
+        // 累加器，为 mode 添加 ModeInterface中的接口。
         const mode = modeObjectKeys.reduce((m, k) => {
             m[k] = modeObject[k];
             return m;
@@ -13,10 +13,11 @@ export default function (modeObject) {
 
         function wrapper(eh) {
             return function (e) {
+                // customMode.onSetup 会返回一个`state`和`e`
                 mode[eh](state, e);
             };
         }
-
+        // 返回自定义mode的api。需要被重写。
         return {
             start: function () {
                 state = mode.onSetup(startOpts); // this should set ui buttons
@@ -51,3 +52,8 @@ export default function (modeObject) {
         };
     };
 }
+
+
+// export default function compose(...funcs) {
+//     return funcs.reduce((a, b) => (...args) => (a(b(...args))));
+// }

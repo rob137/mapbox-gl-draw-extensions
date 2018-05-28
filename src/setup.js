@@ -75,7 +75,7 @@ export default function (ctx) {
                 map.on('load', setup.connect);
                 mapLoadedInterval = setInterval(() => { if (map.loaded()) setup.connect(); }, 16);
             }
-
+            // 构建所有自定义mode，执行使其生效
             ctx.events.start();
             return controlContainer;
         },
