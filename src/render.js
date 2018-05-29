@@ -2,7 +2,6 @@ import Constants from './constants';
 
 export default function render() {
     const store = this;
-    console.log(store);
     const mapExists = store.ctx.map && store.ctx.map.getSource(Constants.sources.HOT) !== undefined;
     if (!mapExists) return cleanup();
 
@@ -17,13 +16,15 @@ export default function render() {
         newColdIds = store.getAllIds();
     } else {
         newHotIds = store.getChangedIds().filter(id => store.get(id) !== undefined);
+        // 转换features 由`hot`变为`cold`
         newColdIds = store.sources.hot.filter((geojson) => {
             return geojson.properties.id && newHotIds.indexOf(geojson.properties.id) === -1 && store.get(geojson.properties.id) !== undefined;
         }).map(geojson => geojson.properties.id);
     }
-
+    console.log(store.sources.hot);
     store.sources.hot = [];
     const lastColdCount = store.sources.cold.length;
+    //通过过滤`newHotIds`来获取新的 `cold source`
     store.sources.cold = store.isDirty ? [] : store.sources.cold.filter((geojson) => {
         const id = geojson.properties.id || geojson.properties.parent;
         return newHotIds.indexOf(id) === -1;

@@ -21,11 +21,13 @@ export default class Store {
         this._featureIds = new StringSet();
         this._selectedFeatureIds = new StringSet();
         this._selectedCoordinates = [];
-        this._changedFeatureIds = new StringSet();
+        this._changedFeatureIds = new StringSet(); // 用于绘制`hot feature`;
         this._deletedFeaturesToEmit = [];
         this._emitSelectionChange = false;
         this._mapInitialConfig = {};
         this.ctx = ctx;
+        // hot 表示绘制过程中产生的 cold 表示绘制结束产生的。
+        // 数组中结果均为geojson
         this.sources = {
             hot: [],
             cold: []
