@@ -11,7 +11,8 @@ minemap.domainUrl = '//minedata.cn';
 minemap.dataDomainUrl = '//datahive.minedata.cn';
 minemap.spriteUrl = '//minedata.cn/minemapapi/v1.3/sprite/sprite';
 minemap.serviceUrl = '//minedata.cn/service';
-minemap.accessToken = '25cc55a69ea7422182d00d6b7c0ffa93';
+//minemap.accessToken = '25cc55a69ea7422182d00d6b7c0ffa93';
+minemap.accessToken = '25cc55a66b7c0ffa93';
 minemap.solution = 2365;
 
 const map = new minemap.Map({
