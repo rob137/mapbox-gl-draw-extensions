@@ -1,8 +1,8 @@
 import Feature from './feature';
 
 export default class Polygon extends Feature {
-    constructor(...args) {
-        super(...args);
+    constructor(ctx, geojson) {
+        super(ctx, geojson);
         this.coordinates = this.coordinates.map(ring => ring.slice(0, -1));
     }
     isValid() {

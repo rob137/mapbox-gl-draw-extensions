@@ -77,10 +77,11 @@ export default class ModeInterface {
     }
     newFeature(geojson) {
         const type = geojson.geometry.type;
+        // const _type_ = geojson.properties._type_;
         if (type === Constants.geojsonTypes.POINT) return new Point(this._ctx, geojson);
         if (type === Constants.geojsonTypes.LINE_STRING) return new LineString(this._ctx, geojson);
         if (type === Constants.geojsonTypes.POLYGON) return new Polygon(this._ctx, geojson);
-        // if (type === Constants.geojsonTypes.CIRCLE) return new Circle(this._ctx, geojson);
+        //if (_type_ === Constants.geojsonTypes.ARROW) return new Arrow(this._ctx, geojson);
         return new MultiFeature(this._ctx, geojson);
     }
     isInstanceOf(type, feature) {

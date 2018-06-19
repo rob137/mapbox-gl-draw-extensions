@@ -161,6 +161,15 @@ export default function (ctx) {
             });
         }
 
+        if (controls[Constants.types.ARROW]) {
+            buttonElements[Constants.types.ARROW] = createControlButton(Constants.types.ARROW, {
+                container: controlGroup,
+                className: Constants.classes.CONTROL_BUTTON_ARROW,
+                title: `Arrow tool ${ctx.options.keybindings && 'a'}`,
+                onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_ARROW)
+            });
+        }
+
         if (controls.trash) {
             buttonElements.trash = createControlButton('trash', {
                 container: controlGroup,

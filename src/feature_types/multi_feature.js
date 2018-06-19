@@ -19,8 +19,8 @@ const takeAction = (features, action, path, lng, lat) => {
 };
 
 export default class MultiFeature extends Feature {
-    constructor(...args) {
-        super(...args);
+    constructor(ctx,geojson) {
+        super(ctx,geojson);
         delete this.coordinates;
         this.model = models[geojson.geometry.type];
         if (this.model === undefined) throw new TypeError(`${geojson.geometry.type} is not a valid type`);

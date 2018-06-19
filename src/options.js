@@ -28,6 +28,7 @@ const showControls = {
     triangle: true,
     rectangle: true,
     sector: true,
+    arrow:true,
 };
 
 const hideControls = {
@@ -41,6 +42,7 @@ const hideControls = {
     triangle: false,
     rectangle: false,
     sector: false,
+    arrow:false,
 };
 
 function addSources(styles, sourceBucket) {

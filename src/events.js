@@ -8,6 +8,7 @@ import objectToMode from './modes/object_to_mode';
 
 
 export default function (ctx) {
+    console.log(ctx.options.modes);
     // 生成一个包含所有 modes 及其 
     const modes = Object.keys(ctx.options.modes).reduce((m, k) => {
         // ctx.options.modes[k]=> modes 通过index.js 暴露的`Object`
