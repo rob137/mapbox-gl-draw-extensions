@@ -24,7 +24,7 @@ const featureTypes = {
     MultiPoint
 };
 
-export default function (ctx, api) {
+export default function (ctx, api = {}) {
 
     api.modes = Constants.modes;
 

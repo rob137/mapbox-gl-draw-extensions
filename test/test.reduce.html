@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var events = {
+        type: {
+            'delete': 1,
+            'edit': 2
+        },
+        action: {
+            'move': 'move',
+            'change': 'change'
+        }
+    }
+    function ObjectAccumulator(obj, key, value) {
+        key in obj ? Object.defineProperty(obj, key, {
+            value,
+            enumerable: true,
+            configurable: true,
+            writable: false
+        }) : obj[key] = value;
+        return obj;
+    }
+    // events = Object.keys(events).reduce((accumulator, currentKey) => {
+    //     const currentValue = events[currentKey];
+    //     for (let key in currentValue) {
+    //         if (currentValue.hasOwnProperty(key)) {
+    //             let value = currentValue[key];
+    //             ObjectAccumulator(accumulator, key, value);
+    //         }
+    //     }
+    //     events[currentKey] = accumulator;
+    // }, {});
+    console.log(events);
+</script>
+
+</html>

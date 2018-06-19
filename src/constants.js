@@ -74,11 +74,19 @@ export default {
         ACTIONABLE: 'draw.actionable',
         RENDER: 'draw.render',
         COMBINE_FEATURES: 'draw.combine',
-        UNCOMBINE_FEATURES: 'draw.uncombine'
+        UNCOMBINE_FEATURES: 'draw.uncombine',
+        // new 
+        REPLACE: 'draw.replace',
+        RECORD_CREATE: 'draw.record.create',
+        UNDO: 'draw.undo',
+        REDO: 'draw.redo',
+        SELECTED: 'draw.selected'
     },
     updateActions: {
         MOVE: 'move',
-        CHANGE_COORDINATES: 'change_coordinates'
+        CHANGE_COORDINATES: 'change_coordinates',
+        // new
+        CHANGE_PROPERTIES: 'change_properties',
     },
     meta: {
         FEATURE: 'feature',

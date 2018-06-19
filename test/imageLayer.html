@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>影像图demo</title>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+<script>
+    minemap.domainUrl = '//50.75.19.15';
+    minemap.dataDomainUrl = '//50.75.19.15';
+    minemap.spriteUrl = '//50.75.19.15/minemapapi/v1.3/sprite/sprite';
+    minemap.serviceUrl = '//50.75.19.15/service';
+    minemap.accessToken = '25cc55a69aa7422182d00d6b7c0ffa93';
+    minemap.solution = 2365;
+
+    var map = new minemap.Map({
+        container: 'map',
+        style: '//50.75.19.15/service/solu/style/id/2365',
+        center: [120.619585, 31.299379],
+        zoom: 6,
+        pitch: 0
+    });
+
+    map.on('load', function () {
+        map.addSource('hillshade', {
+            'type': 'raster',
+            'tileSize': 256,
+            'tiles': ['http://50.75.19.15:9082/web_interface/weixin/suzhou/{z}/{x}/{y}']
+        });
+
+        map.addLayer({
+            'id': 'hillshade',
+            'type': 'raster',
+            'source': 'hillshade',
+            'minZoom': 14,
+            'maxZoom': 19,
+            'layout': {
+                'visibility': 'visible'
+            },
+            'paint': {
+                'raster-opacity': 0.5
+            }
+        });
+    });
+</script>
+
+</html>

@@ -155,12 +155,11 @@ const customStyles = [
     }
 ];
 
-const Draw = new MapboxDraw({
-    // styles: customStyles,
-    // defaultMode: 'RotateMode',
-    // modes: Object.assign(
-    //     { RotateMode: RotateMode }
-    //     , MapboxDraw.modes)
+const Draw = new MapboxDraw.init(map, {
+    boxSelect: true,
+    touchEnabled: false,
+    displayControlsDefault: true,
+    showButtons: true
 });
 
 
@@ -168,9 +167,16 @@ const Draw = new MapboxDraw({
 // If no position is specified the control defaults to `top-right`. See the docs 
 // for more details: https://www.mapbox.com/mapbox-gl-js/api/map#addcontrol
 
-map.addControl(Draw, 'top-left');
+// map.addControl(Draw, 'top-left');
 
 map.on('load', function () {
     // Draw.changeMode('RotateMode');
     // Draw.changeMode('simple_select');
+
+    // setTimeout(function () {
+    //     Draw.setOptions({
+    //         showButtons: false, 
+    //         displayControlsDefault: false
+    //     });
+    // }, 1000);
 });
