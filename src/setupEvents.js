@@ -123,9 +123,11 @@ export default function (draw, map, history, container) {
                 const record = history.undoRecord();
                 if (record) {
                     const type = record.getType();
+                    const features = record.getFeatures();
+                    const prevFeatures = record.getPrevFeatures();
                     switch (type) {
                         case 1:
-                            const features = record.getFeatures();
+
                             if (features.length > 0) {
                                 features.map(feature => {
                                     draw.add(Object.assign({}, feature, {
@@ -137,12 +139,11 @@ export default function (draw, map, history, container) {
                             }
                             break;
                         case 2:
-                            const features = record.getFeatures();
+
                             if (features.length > 0) {
                                 const featureIds = features.map(f => f.id);
                                 draw.delete(featureIds);
                             }
-                            const prevFeatures = record.getPrevFeatures();
                             if (prevFeatures.length > 0) {
                                 prevFeatures.map(pf => {
                                     draw.add(Object.assign({}, pf, {
@@ -154,19 +155,17 @@ export default function (draw, map, history, container) {
                             }
                             break;
                         case 3:
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 const featureIds = features.map(f => f.id);
                                 draw.delete(featureIds);
                             }
                             break;
                         case 4:
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 const featureIds = features.map(f => f.id);
                                 draw.delete(featureIds);
                             }
-                            const prevFeatures = record.getPrevFeatures();
+
                             if (prevFeatures.length > 0) {
                                 prevFeatures.map(f => {
                                     draw.add(Object.assign({}, f, {
@@ -190,9 +189,11 @@ export default function (draw, map, history, container) {
                 if (record) {
                     draw.getAll();
                     const type = record.getType();
+
+                    const features = record.getFeatures();
+                    const prevFeatures = record.getPrevFeatures();
                     switch (type) {
                         case 3:
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 features.map(f => {
                                     draw.add(Object.assign({}, f, {
@@ -204,12 +205,10 @@ export default function (draw, map, history, container) {
                             }
                             break;
                         case 2:
-                            const prevFeatures = record.getPrevFeatures();
                             if (prevFeatures.length > 0) {
                                 const featureIds = prevFeatures.map(f => f.id);
                                 draw.delete(featureIds);
                             }
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 features.map(f => {
                                     draw.add(Object.assign({}, f, {
@@ -221,19 +220,16 @@ export default function (draw, map, history, container) {
                             }
                             break;
                         case 1:
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 const featureIds = features.map(f => f.id);
                                 draw.delete(featureIds);
                             }
                             break;
                         case 4:
-                            const prevFeatures = record.getPrevFeatures();
                             if (prevFeatures.length > 0) {
                                 const featureIds = prevFeatures.map(f => f.id);
                                 draw.delete(featureIds);
                             }
-                            const features = record.getFeatures();
                             if (features.length > 0) {
                                 features.map(f => {
                                     draw.add(Object.assign({}, f, {
@@ -253,6 +249,5 @@ export default function (draw, map, history, container) {
             }
         }
     }
-
     return api;
 }
