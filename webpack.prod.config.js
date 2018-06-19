@@ -14,6 +14,7 @@ module.exports = {
         fs: "empty"
     },
     mode: 'production',
+    // devtool:'hidden-source-map',
     module: {
         rules: [
             {
