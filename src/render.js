@@ -21,7 +21,6 @@ export default function render() {
             return geojson.properties.id && newHotIds.indexOf(geojson.properties.id) === -1 && store.get(geojson.properties.id) !== undefined;
         }).map(geojson => geojson.properties.id);
     }
-    console.log(store.sources.hot);
     store.sources.hot = [];
     const lastColdCount = store.sources.cold.length;
     //通过过滤`newHotIds`来获取新的 `cold source`
