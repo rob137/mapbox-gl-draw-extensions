@@ -1,6 +1,6 @@
-const innerOffset = 5;
-const outerOffset = 11;
-const topOffset = 18;
+var innerOffset = 10;
+var outerOffset = 22;
+var topOffset = 36;
 // const template = [[0, 0], [5, 82], [11, 82], [0, 100], [-11, 82], [-5, 82], [0, 0]];
 // const base = 100;
 

@@ -129,3 +129,6 @@
 .mapbox-gl-draw_arrow{
     background: url(./svg/arrow.svg) center no-repeat;
 }
+.mapbox-gl-draw_bezier_arrow{
+    background: url(./svg/bezierArrow.svg) center no-repeat;
+}

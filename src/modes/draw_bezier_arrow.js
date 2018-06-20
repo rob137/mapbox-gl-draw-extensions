@@ -1,113 +1,115 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-import getArrowVertex from '../lib/get_arrow_vertex';
+import getArrowVertex from '../lib/get_bezier_arrow_vertex';
 
-const DrawArrow = {};
-let center = {
-    x: 0,
-    y: 0
-};
+const DrawBezierArrow = {};
+let points = [];
 
-DrawArrow.onSetup = function () {
-    const arrow = this.newFeature({
+DrawBezierArrow.onSetup = function () {
+    const bezierArrow = this.newFeature({
         type: Constants.geojsonTypes.FEATURE,
-        properties: { '_type_': Constants.geojsonTypes.ARROW },
+        properties: { '_type_': Constants.geojsonTypes.BEZIERARROW },
         geometry: {
             type: Constants.geojsonTypes.POLYGON,
             coordinates: [[]]
         }
     });
-
-    this.addFeature(arrow);
-
+    this.addFeature(bezierArrow);
     this.clearSelectedFeatures();
     doubleClickZoom.disable(this);
     this.updateUIClasses({ mouse: Constants.cursors.ADD });
-    this.activateUIButton(Constants.types.ARROW);
+    this.activateUIButton(Constants.types.BEZIERARROW);
 
     this.setActionableState({ trash: true });
-
     return {
-        arrow,
+        bezierArrow,
         currentClickNum: 0
     };
 };
 
-DrawArrow.onMouseMove = function (state, e) {
-    let { arrow, currentClickNum } = state;
+DrawBezierArrow.onMouseMove = function (state, e) {
+    let { bezierArrow, currentClickNum } = state;
     if (currentClickNum === 1) {
-        const arrowVertex = getArrowVertex(this, center, this.map.project(e.lngLat));
+        const arrowVertex = getArrowVertex(this, points[0], this.map.project(e.lngLat));
         if (arrowVertex) {
-            arrow.setCoordinates([arrowVertex]);
+            bezierArrow.setCoordinates([arrowVertex]);
         }
     } else if (currentClickNum === 2) {
+        const arrowVertex = getArrowVertex(this, points[0], points[1], this.map.project(e.lngLat));
+        if (arrowVertex) {
+            bezierArrow.setCoordinates([arrowVertex]);
+        }
+    } else if (currentClickNum === 3) {
         this.map.fire(Constants.events.CREATE, {
-            features: [arrow.toGeoJSON()]
+            features: [bezierArrow.toGeoJSON()]
         });
-        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
+        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [bezierArrow.id] });
     }
+
     if (CommonSelectors.isVertex(e)) {
         this.updateUIClasses({ mouse: Constants.cursors.POINTER });
     }
-    state = Object.assign(state, { currentClickNum, arrow });
+
+    state = Object.assign(state, { currentClickNum, bezierArrow });
 };
 
-DrawArrow.onClick = function (state, e) {
-    let { arrow, currentClickNum } = state;
+DrawBezierArrow.onClick = function (state, e) {
+    let { bezierArrow, currentClickNum } = state;
     this.updateUIClasses({ mouse: Constants.cursors.ADD });
-    if (currentClickNum === 0) {
-        center = this.map.project(e.lngLat);
+    if (currentClickNum < 2) {
+        points.push(this.map.project(e.lngLat));
         currentClickNum++;
-    } else if (currentClickNum === 1) {
+    } else if (currentClickNum === 2) {
         currentClickNum++;
     }
+
     if (CommonSelectors.isVertex(e)) {
-        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
+        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [bezierArrow.id] });
     }
-    state = Object.assign(state, { currentClickNum, arrow });
+    state = Object.assign(state, { currentClickNum, bezierArrow });
 };
 
-DrawArrow.onKeyUp = function (state) {
-    let { arrow } = state;
+DrawBezierArrow.onKeyUp = function (state) {
+    let { bezierArrow } = state;
     if (CommonSelectors.isEscapeKey) {
-        this.deleteFeature([arrow.id], { silent: true });
+        this.deleteFeature([bezierArrow.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT);
     }
     if (CommonSelectors.isEnterKey) {
-        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
+        this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [bezierArrow.id] });
     }
 };
 
-DrawArrow.onStop = function (state) {
-    let { arrow } = state;
+DrawBezierArrow.onStop = function (state) {
+    let { bezierArrow } = state;
     this.updateUIClasses({ mouse: Constants.cursors.NONE });
     const initialDoubleClickZoomState = this.map ? this.map.doubleClickZoom.isEnabled() : true;
-    if (initialDoubleClickZoomState) {
-        doubleClickZoom.enable(this);
-    }
+    if (initialDoubleClickZoomState) doubleClickZoom.enable(this);
+
     this.activateUIButton();
 
-    if (this.getFeature(arrow.id) === undefined) return;
+    if (this.getFeature(bezierArrow.id) === undefined) return;
 
-    if (arrow.isValid()) {
+    if (bezierArrow.isValid()) {
         this.map.fire(Constants.events.CREATE, {
-            features: [arrow.toGeoJSON()]
+            features: [bezierArrow.toGeoJSON()]
         });
     } else {
-        this.deleteFeature([arrow.id], { silent: true });
+        this.deleteFeature([bezierArrow.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
     }
+    points = [];
 };
 
-DrawArrow.toDisplayFeatures = function (state, geojson, display) {
-    let { arrow } = state;
-    const isActivePolygon = geojson.properties.id === arrow.id;
+
+DrawBezierArrow.toDisplayFeatures = function (state, geojson, display) {
+    let { bezierArrow } = state;
+    const isActivePolygon = geojson.properties.id === bezierArrow.id;
     geojson.properties.active = isActivePolygon ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActivePolygon) return display(geojson);
 
     if (geojson.geometry.coordinates.length === 0) return;
-
     const coordinateCount = geojson.geometry.coordinates[0].length;
     if (coordinateCount < 3) return;
     geojson.properties.meta = Constants.meta.FEATURE;
@@ -115,8 +117,6 @@ DrawArrow.toDisplayFeatures = function (state, geojson, display) {
         return display(geojson);
     }
 
-    // If we've only drawn two positions (plus the closer),
-    // make a LineString instead of a Polygon
     const lineCoordinates = [
         [geojson.geometry.coordinates[0][0][0], geojson.geometry.coordinates[0][0][1]], [geojson.geometry.coordinates[0][1][0], geojson.geometry.coordinates[0][1][1]]
     ];
@@ -130,10 +130,10 @@ DrawArrow.toDisplayFeatures = function (state, geojson, display) {
     });
 };
 
-DrawArrow.onTrash = function (state) {
-    let { arrow } = state;
-    this.deleteFeature([arrow.id], { silent: true });
+DrawBezierArrow.onTrash = function (state) {
+    let { bezierArrow } = state;
+    this.deleteFeature([bezierArrow.id], { silent: true });
     this.changeMode(Constants.modes.SIMPLE_SELECT);
 };
 
-export default DrawArrow;
+export default DrawBezierArrow;

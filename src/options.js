@@ -29,6 +29,7 @@ const showControls = {
     rectangle: true,
     sector: true,
     arrow: true,
+    bezier_arrow: true,
 };
 
 const hideControls = {
@@ -43,6 +44,7 @@ const hideControls = {
     rectangle: false,
     sector: false,
     arrow: false,
+    bezier_arrow: false,
 };
 
 function addSources(styles, sourceBucket) {

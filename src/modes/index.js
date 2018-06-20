@@ -8,7 +8,8 @@ const modes = [
     'draw_triangle',
     'draw_rectangle',
     'draw_sector',
-    'draw_arrow'
+    'draw_arrow',
+    'draw_bezier_arrow',
 ];
 
 export default modes.reduce((m, k) => {

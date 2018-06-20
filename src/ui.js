@@ -169,6 +169,15 @@ export default function (ctx) {
                 onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_ARROW)
             });
         }
+        //贝塞尔曲线
+        if (controls[Constants.types.BEZIERARROW]) {
+            buttonElements[Constants.types.BEZIERARROW] = createControlButton(Constants.types.BEZIERARROW, {
+                container: controlGroup,
+                className: Constants.classes.CONTROL_BUTTON_BEZIER_ARROW,
+                title: `BezierArrow tool ${ctx.options.keybindings && 'b'}`,
+                onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_BEZIER_ARROW)
+            });
+        }
 
         if (controls.trash) {
             buttonElements.trash = createControlButton('trash', {

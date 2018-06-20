@@ -8,6 +8,7 @@ export default {
         CONTROL_BUTTON_RECTANGLE: 'mapbox-gl-draw_rectangle',
         CONTROL_BUTTON_SECTOR: 'mapbox-gl-draw_sector',
         CONTROL_BUTTON_ARROW: 'mapbox-gl-draw_arrow',
+        CONTROL_BUTTON_BEZIER_ARROW: 'mapbox-gl-draw_bezier_arrow',
         CONTROL_BUTTON_LINE: 'mapbox-gl-draw_line',
         CONTROL_BUTTON_POLYGON: 'mapbox-gl-draw_polygon',
         CONTROL_BUTTON_POINT: 'mapbox-gl-draw_point',
@@ -39,6 +40,7 @@ export default {
         RECTANGLE: 'rectangle',
         SECTOR: 'sector',
         ARROW: 'arrow',
+        BEZIERARROW: 'bezier_arrow',
     },
     geojsonTypes: {
         CIRCLE: 'Circle', // +
@@ -46,6 +48,7 @@ export default {
         RECTANGLE: 'Rectangle',
         SECTOR: 'Sector',
         ARROW: 'Arrow',
+        BEZIERARROW: 'BezierArrow',
         FEATURE: 'Feature',
         POLYGON: 'Polygon',
         LINE_STRING: 'LineString',
@@ -62,6 +65,7 @@ export default {
         DRAW_RECTANGLE: 'draw_rectangle',
         DRAW_SECTOR: 'draw_sector',
         DRAW_ARROW: 'draw_arrow',
+        DRAW_BEZIER_ARROW: 'draw_bezier_arrow',
         DRAW_LINE_STRING: 'draw_line_string',
         DRAW_POLYGON: 'draw_polygon',
         DRAW_POINT: 'draw_point',

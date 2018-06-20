@@ -8,11 +8,13 @@ export default class Feature {
         this.coordinates = geojson.geometry.coordinates;
         this.id = geojson.id || hat();
         this.type = geojson.geometry.type;
+        console.log('this.coord',this.coordinates);
     }
     changed() {
         this.ctx.store.featureChanged(this.id);
     }
     incomingCoords(coords) {
+        console.log('coord',coords);
         this.setCoordinates(coords);
     }
     setCoordinates(coords) {
