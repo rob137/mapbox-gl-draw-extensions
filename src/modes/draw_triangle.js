@@ -56,6 +56,9 @@ DrawTriangle.clickOnVertex = function (state) {
 
 DrawTriangle.onTap = DrawTriangle.onClick = function (state, e) {
     if (CommonSelector.isVertex(e)) return this.clickOnVertex(state, e);
+    this.map.fire(Constants.events.CLICK, {
+        features: [state.triangle.toGeoJSON()]
+    });
     return this.clickAnywhere(state, e);
 };
 

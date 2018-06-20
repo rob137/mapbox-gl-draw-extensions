@@ -46,6 +46,9 @@ DrawRectangle.onClick = function (state, e) {
     const coords = createGeoJSONRectangle(rectangle.ltPoint, rectangle.ltPoint);
     rectangle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
+    this.map.fire(Constants.events.CLICK, {
+        features: [state.rectangle.toGeoJSON()]
+    });
     state = Object.assign(state, { rectangle, currentVertexPosition });
 };
 

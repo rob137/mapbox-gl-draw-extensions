@@ -67,6 +67,9 @@ DrawBezierArrow.onClick = function (state, e) {
     if (CommonSelectors.isVertex(e)) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [bezierArrow.id] });
     }
+    this.map.fire(Constants.events.CLICK, {
+        features: [state.bezierArrow.toGeoJSON()]
+    });
     state = Object.assign(state, { currentClickNum, bezierArrow });
 };
 

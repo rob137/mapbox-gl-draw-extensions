@@ -63,6 +63,9 @@ DrawCircle.onClick = function (state, e) {
     const coords = createGeoJSONCircle([e.lngLat.lng, e.lngLat.lat], 0);
     circle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
+    this.map.fire(Constants.events.CLICK, {
+        features: [state.circle.toGeoJSON()]
+    });
     state = Object.assign(state, { currentVertexPosition, circle });
 };
 

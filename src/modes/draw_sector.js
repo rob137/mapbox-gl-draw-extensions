@@ -66,6 +66,9 @@ DrawSector.onClick = function (state, e) {
         sector.offset = offset;
     }
     currentVertexPosition++;
+    this.map.fire(Constants.events.CLICK, {
+        features: [state.sector.toGeoJSON()]
+    });
     state = Object.assign(state, { currentVertexPosition, sector });
 };
 

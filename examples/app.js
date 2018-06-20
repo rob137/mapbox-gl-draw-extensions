@@ -183,3 +183,8 @@ map.on('load', function () {
     //     });
     // }, 1000);
 });
+
+map.on('draw.click', function (e) {
+    console.log(`我绘制的是一个${e.features[0].properties._type_}`, e.features);
+});
+

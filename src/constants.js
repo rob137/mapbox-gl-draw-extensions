@@ -75,6 +75,7 @@ export default {
     },
     events: {
         CREATE: 'draw.create',
+        CLICK: 'draw.click',
         DELETE: 'draw.delete',
         UPDATE: 'draw.update',
         SELECTION_CHANGE: 'draw.selectionchange',
