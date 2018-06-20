@@ -31,6 +31,12 @@ module.exports = {
                 ]
             },
             {
+                test: /\.js$/,
+                use: ['eslint-loader'],
+                include: [path.resolve(__dirname, './src')],
+                enforce: 'pre'
+            },
+            {
                 test: /\.(png|gif|jpe?g|svg|xml|json)$/,
                 use: ['url-loader']
             }

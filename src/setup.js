@@ -2,7 +2,7 @@ import events from './events';
 import Store from './store';
 import ui from './ui';
 import Constants from './constants';
-import xtend from 'xtend';
+// import xtend from 'xtend';
 
 
 export default function (ctx) {
@@ -37,20 +37,20 @@ export default function (ctx) {
             ctx.events.addEventListeners();
         },
         onAdd: function (map) {
-            if (process.env.NODE_ENV !== 'test') {
-                // Monkey patch to resolve breaking change to `fire` introduced by
-                // mapbox-gl-js. See mapbox/mapbox-gl-draw/issues/766.
-                const _fire = map.fire;
-                map.fire = function (type, event) {
-                    let args = arguments;
+            // if (process.env.NODE_ENV !== 'test') {
+            //     // Monkey patch to resolve breaking change to `fire` introduced by
+            //     // mapbox-gl-js. See mapbox/mapbox-gl-draw/issues/766.
+            //     const _fire = map.fire;
+            //     map.fire = function (type, event) {
+            //         let args = arguments;
 
-                    if (_fire.length === 1 && arguments.length !== 1) {
-                        args = [xtend({}, { type: type }, event)];
-                    }
+            //         if (_fire.length === 1 && arguments.length !== 1) {
+            //             args = [xtend({}, { type: type }, event)];
+            //         }
 
-                    return _fire.apply(map, args);
-                };
-            }
+            //         return _fire.apply(map, args);
+            //     };
+            // }
 
             ctx.map = map;
             ctx.events = events(ctx);
@@ -127,4 +127,4 @@ export default function (ctx) {
     ctx.setup = setup;
 
     return setup;
-};
+}

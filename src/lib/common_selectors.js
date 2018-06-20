@@ -53,4 +53,4 @@ export default {
     true: function () {
         return true;
     }
-}
+};

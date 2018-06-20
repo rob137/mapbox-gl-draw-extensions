@@ -1,8 +1,8 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-import isEventAtCoordinates from '../lib/is_event_at_coordinates';
-import createVertex from '../lib/create_vertex';
+// import isEventAtCoordinates from '../lib/is_event_at_coordinates';
+// import createVertex from '../lib/create_vertex';
 import distance from '../lib/geo_distance';
 import createGeoJSONCircle from '../lib/create_geo_json_circle';
 
@@ -10,7 +10,7 @@ import createGeoJSONCircle from '../lib/create_geo_json_circle';
 
 const DrawCircle = {};
 
-DrawCircle.onSetup = function (opts) {
+DrawCircle.onSetup = function () {
     let circle = this.newFeature({
         type: Constants.geojsonTypes.FEATURE,
         properties: { '_type_': Constants.geojsonTypes.CIRCLE },
@@ -47,7 +47,7 @@ DrawCircle.onMouseMove = function (state, e) {
         this.updateUIClasses({ mouse: Constants.cursors.POINTER });
     }
     state = Object.assign(state, { currentVertexPosition, circle });
-}
+};
 
 DrawCircle.onClick = function (state, e) {
     let { circle, currentVertexPosition } = state;
@@ -64,11 +64,11 @@ DrawCircle.onClick = function (state, e) {
     circle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
     state = Object.assign(state, { currentVertexPosition, circle });
-}
+};
 
 
-DrawCircle.onKeyUp = function (state, e) {
-    let { circle, currentVertexPosition } = state;
+DrawCircle.onKeyUp = function (state) {
+    let { circle } = state;
     if (CommonSelectors.isEscapeKey) {
         this.deleteFeature(circle.id, { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT);
@@ -76,7 +76,7 @@ DrawCircle.onKeyUp = function (state, e) {
     if (CommonSelectors.isEnterKey) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [circle.id] });
     }
-}
+};
 
 DrawCircle.onStop = function (state) {
     let { circle, currentVertexPosition } = state;
@@ -94,12 +94,12 @@ DrawCircle.onStop = function (state) {
         this.deleteFeature([circle.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
     }
-}
+};
 
 DrawCircle.toDisplayFeatures = function (state, geojson, display) {
-    let { circle, currentVertexPosition } = state;
+    let { circle } = state;
     const isActiveCircle = geojson.properties.id === circle.id;
-    const parentClass = circle.properties.class;
+    // const parentClass = circle.properties.class;
     geojson.properties.active = isActiveCircle ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActiveCircle) return display(geojson);
 
@@ -125,13 +125,13 @@ DrawCircle.toDisplayFeatures = function (state, geojson, display) {
     if (coordinateCount > 3) {
         return display(geojson);
     }
-}
+};
 
 
 DrawCircle.onTrash = function (state) {
-    let { circle, currentVertexPosition } = state;
+    let { circle } = state;
     this.deleteFeature([circle.id], { silent: true });
     this.changeMode(Constants.modes.SIMPLE_SELECT);
-}
+};
 
 export default DrawCircle;

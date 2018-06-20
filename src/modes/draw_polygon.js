@@ -90,7 +90,7 @@ DrawPolygon.onStop = function (state) {
 
 DrawPolygon.toDisplayFeatures = function (state, geojson, display) {
     const isActivePolygon = geojson.properties.id === state.polygon.id;
-    geojson.properties.active = (isActivePolygon) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+    geojson.properties.active = isActivePolygon ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActivePolygon) return display(geojson);
 
     // Don't render a polygon until it has two positions

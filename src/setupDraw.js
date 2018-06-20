@@ -2,7 +2,7 @@ import runSetup from './setup';
 import setupOptions from './options';
 import setupAPI from './api';
 import Constants from './constants';
-import modes from './modes';
+// import modes from './modes';
 
 const setupDraw = function (options, api = {}) {
     options = setupOptions(options);

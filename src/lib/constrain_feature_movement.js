@@ -1,5 +1,5 @@
 import extent from '@mapbox/geojson-extent';
-import Constants, {
+import {
     LAT_MIN,
     LAT_MAX,
     LAT_RENDERED_MIN,

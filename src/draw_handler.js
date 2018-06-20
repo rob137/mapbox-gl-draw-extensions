@@ -31,8 +31,8 @@ export default function (context = {}) {
             ctx.container = map.getContainer();
 
             if (ctx.history) {
-                ctx.history = null
-            };
+                ctx.history = null;
+            }
             if (ctx.event) {
                 ctx.event.removeEventListeners();
                 ctx.event = null;
@@ -136,5 +136,5 @@ export default function (context = {}) {
                 ctx.history.clear();
             }
         }
-    }
-};
+    };
+}

@@ -1,7 +1,7 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-import isEventAtCoordinates from '../lib/is_event_at_coordinates';
+// import isEventAtCoordinates from '../lib/is_event_at_coordinates';
 import createVertex from '../lib/create_vertex';
 import distance from '../lib/geo_distance';
 import angle from '../lib/geo_angle';
@@ -11,7 +11,7 @@ import moving_direction from '../lib/moving_direction';
 
 const DrawSector = {};
 
-DrawSector.onSetup = function (opts) {
+DrawSector.onSetup = function () {
     let sector = this.newFeature({
         type: Constants.geojsonTypes.FEATURE,
         properties: { '_type_': Constants.geojsonTypes.SECTOR },
@@ -31,7 +31,7 @@ DrawSector.onSetup = function (opts) {
     return {
         sector,
         currentVertexPosition: 0
-    }
+    };
 };
 
 
@@ -44,14 +44,14 @@ DrawSector.onClick = function (state, e) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [sector.id] });
     }
     this.updateUIClasses({ mouse: Constants.cursors.ADD });
-    // 第一次 点击 
+    // 第一次 点击
     if (currentVertexPosition < 1) {
         sector.center = [e.lngLat.lng, e.lngLat.lat];
         sector.arcPoint = [e.lngLat.lng, e.lngLat.lat];
     } else {
         // 第二次点击
         sector.arcPoint = [e.lngLat.lng, e.lngLat.lat];
-        // 半径 
+        // 半径
         const radius = distance(sector.center[1], sector.center[0], sector.arcPoint[1], sector.arcPoint[0]);
         sector.radius = radius;
         let offset = angle(sector.center[0], sector.center[1], sector.center[0], 0, sector.arcPoint[0], sector.arcPoint[1]);
@@ -67,7 +67,7 @@ DrawSector.onClick = function (state, e) {
     }
     currentVertexPosition++;
     state = Object.assign(state, { currentVertexPosition, sector });
-}
+};
 
 DrawSector.onMouseMove = function (state, e) {
     let { sector, currentVertexPosition } = state;
@@ -96,7 +96,7 @@ DrawSector.onMouseMove = function (state, e) {
         this.updateUIClasses({ mouse: Constants.cursors.POINTER });
     }
     state = Object.assign(state, { sector, currentVertexPosition });
-}
+};
 
 DrawSector.onStop = function (state) {
     let { sector, currentVertexPosition } = state;
@@ -114,12 +114,12 @@ DrawSector.onStop = function (state) {
         this.deleteFeature([sector.id], { slient: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { slient: true });
     }
-}
+};
 
 DrawSector.toDisplayFeatures = function (state, geojson, display) {
     let { sector, currentVertexPosition } = state;
     const isActiveSector = geojson.properties.id === sector.id;
-    const parentClass = sector.properties.class;
+    // const parentClass = sector.properties.class;
     geojson.properties.active = isActiveSector ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActiveSector) return display(geojson);
 
@@ -132,7 +132,7 @@ DrawSector.toDisplayFeatures = function (state, geojson, display) {
     display(createVertex(sector.id, geojson.geometry.coordinates[0][0], '0.0', false));
 
     if (currentVertexPosition === 2) {
-        display(createVertex(sector.id, geojson.geometry.coordinates[0][1], `0.1`, false));
+        display(createVertex(sector.id, geojson.geometry.coordinates[0][1], '0.1', false));
     }
 
     if (coordinateCount <= 4) {
@@ -155,12 +155,12 @@ DrawSector.toDisplayFeatures = function (state, geojson, display) {
     if (coordinateCount > 4) {
         return display(geojson);
     }
-}
+};
 
 DrawSector.onTrash = function (state) {
-    let { sector, currentVertexPosition } = state;
+    let { sector } = state;
     this.deleteFeature([sector.id], { silent: true });
     this.changeMode(Constants.modes.SIMPLE_SELECT);
-}
+};
 
 export default DrawSector;

@@ -135,7 +135,7 @@ DrawLineString.onTrash = function (state) {
 
 DrawLineString.toDisplayFeatures = function (state, geojson, display) {
     const isActiveLine = geojson.properties.id === state.line.id;
-    geojson.properties.active = (isActiveLine) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+    geojson.properties.active = isActiveLine ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActiveLine) return display(geojson);
     // Only render the line if it has at least one real coordinate
     if (geojson.geometry.coordinates.length < 2) return;

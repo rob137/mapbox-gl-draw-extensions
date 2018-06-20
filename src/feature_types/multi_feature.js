@@ -14,13 +14,13 @@ const models = {
 const takeAction = (features, action, path, lng, lat) => {
     const parts = path.split('.');
     const idx = parseInt(parts[0], 10);
-    const tail = (!parts[1]) ? null : parts.slice(1).join('.');
+    const tail = !parts[1] ? null : parts.slice(1).join('.');
     return features[idx][action](tail, lng, lat);
 };
 
 export default class MultiFeature extends Feature {
-    constructor(ctx,geojson) {
-        super(ctx,geojson);
+    constructor(ctx, geojson) {
+        super(ctx, geojson);
         delete this.coordinates;
         this.model = models[geojson.geometry.type];
         if (this.model === undefined) throw new TypeError(`${geojson.geometry.type} is not a valid type`);
@@ -70,6 +70,3 @@ export default class MultiFeature extends Feature {
         return this.features;
     }
 }
-
-
-

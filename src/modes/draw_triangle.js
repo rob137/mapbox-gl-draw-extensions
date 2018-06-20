@@ -4,8 +4,6 @@ import Constants from '../constants';
 import isEventAtCoordinates from '../lib/is_event_at_coordinates';
 import createVertex from '../lib/create_vertex';
 
-
-
 const DrawTriangle = {};
 
 
@@ -51,8 +49,8 @@ DrawTriangle.clickAnywhere = function (state, e) {
     }
 };
 
-DrawTriangle.clickOnVertex = function (state, e) {
-    let { triangle, currentVertexPosition } = state;
+DrawTriangle.clickOnVertex = function (state) {
+    let { triangle } = state;
     return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [triangle.id] });
 };
 
@@ -62,7 +60,7 @@ DrawTriangle.onTap = DrawTriangle.onClick = function (state, e) {
 };
 
 DrawTriangle.onKeyUp = function (state, e) {
-    let { triangle, currentVertexPosition } = state;
+    let { triangle } = state;
     if (CommonSelector.isEscapeKey(e)) {
         this.deleteFeature([triangle.id], { slient: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT);
@@ -98,9 +96,9 @@ DrawTriangle.onStop = function (state) {
 };
 
 DrawTriangle.toDisplayFeatures = function (state, geojson, display) {
-    let { triangle, currentVertexPosition } = state;
+    let { triangle } = state;
     const isActiveTriangle = geojson.properties.id === triangle.id;
-    geojson.properties.active = (isActiveTriangle) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+    geojson.properties.active = isActiveTriangle ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActiveTriangle) return display(geojson);
     // Don't render a polygon until it has two positions
     // (and a 3rd which is just the first repeated)
@@ -120,7 +118,7 @@ DrawTriangle.toDisplayFeatures = function (state, geojson, display) {
         const endPos = geojson.geometry.coordinates[0].length - 3;
         display(
             createVertex(triangle.id, geojson.geometry.coordinates[0][endPos], `0.${endPos}`, false)
-        )
+        );
     }
     if (coordinateCount <= 4) {
         // If we've only drawn two positions (plus the closer),
@@ -144,7 +142,7 @@ DrawTriangle.toDisplayFeatures = function (state, geojson, display) {
 };
 
 DrawTriangle.onTrash = function (state) {
-    let { triangle, currentVertexPosition } = state;
+    let { triangle } = state;
     this.deleteFeature([triangle.id], { slient: true });
     this.changeMode(Constants.modes.SIMPLE_SELECT);
 };

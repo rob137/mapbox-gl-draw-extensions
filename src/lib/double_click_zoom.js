@@ -15,4 +15,4 @@ export default {
             ctx.map.doubleClickZoom.disable();
         }, 0);
     }
-}
+};

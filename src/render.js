@@ -87,4 +87,4 @@ export default function render() {
         store.isDirty = false;
         store.clearChangedIds();
     }
-};
+}

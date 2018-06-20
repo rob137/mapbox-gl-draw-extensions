@@ -28,7 +28,7 @@ const showControls = {
     triangle: true,
     rectangle: true,
     sector: true,
-    arrow:true,
+    arrow: true,
 };
 
 const hideControls = {
@@ -42,7 +42,7 @@ const hideControls = {
     triangle: false,
     rectangle: false,
     sector: false,
-    arrow:false,
+    arrow: false,
 };
 
 function addSources(styles, sourceBucket) {
@@ -50,7 +50,7 @@ function addSources(styles, sourceBucket) {
         if (style.source) return style;
         return xtend(style, {
             id: `${style.id}.${sourceBucket}`,
-            source: (sourceBucket === 'hot') ? Constants.sources.HOT : Constants.sources.COLD
+            source: sourceBucket === 'hot' ? Constants.sources.HOT : Constants.sources.COLD
         });
     });
 }
@@ -73,5 +73,4 @@ export default function (options = {}) {
     withDefaults.styles = addSources(withDefaults.styles, 'cold').concat(addSources(withDefaults.styles, 'hot'));
 
     return withDefaults;
-};
-
+}

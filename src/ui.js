@@ -49,6 +49,24 @@ export default function (ctx) {
         currentMapClasses = xtend(currentMapClasses, nextMapClasses);
     }
 
+    function deactivateButtons() {
+        if (!activeButton) return;
+        activeButton.classList.remove(Constants.classes.ACTIVE_BUTTON);
+        activeButton = null;
+    }
+
+    function setActiveButton(id) {
+        deactivateButtons();
+
+        const button = buttonElements[id];
+        if (!button) return;
+
+        if (button && id !== 'trash') {
+            button.classList.add(Constants.classes.ACTIVE_BUTTON);
+            activeButton = button;
+        }
+    }
+
     function createControlButton(id, options = {}) {
         const button = document.createElement('button');
         button.className = `${Constants.classes.CONTROL_BUTTON} ${options.className}`;
@@ -70,24 +88,6 @@ export default function (ctx) {
         }, true);
 
         return button;
-    }
-
-    function deactivateButtons() {
-        if (!activeButton) return;
-        activeButton.classList.remove(Constants.classes.ACTIVE_BUTTON);
-        activeButton = null;
-    }
-
-    function setActiveButton(id) {
-        deactivateButtons();
-
-        const button = buttonElements[id];
-        if (!button) return;
-
-        if (button && id !== 'trash') {
-            button.classList.add(Constants.classes.ACTIVE_BUTTON);
-            activeButton = button;
-        }
     }
 
     function addButtons() {
@@ -223,4 +223,4 @@ export default function (ctx) {
         addButtons,
         removeButtons
     };
-};
+}

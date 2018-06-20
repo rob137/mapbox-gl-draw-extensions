@@ -114,7 +114,7 @@ DirectSelect.clickActiveFeature = function (state) {
 DirectSelect.onSetup = function (opts) {
     const featureId = opts.featureId;
     const feature = this.getFeature(featureId);
-    const featureType = feature.properties['_type_'];
+    // const featureType = feature.properties['_type_'];
     // if (featureType === Constants.geojsonTypes.CIRCLE) return;
     if (!feature) {
         throw new Error('You must provide a featureId to enter direct_select mode');

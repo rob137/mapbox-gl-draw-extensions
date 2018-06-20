@@ -1,12 +1,12 @@
 const innerOffset = 5;
 const outerOffset = 11;
 const topOffset = 18;
-const template = [[0, 0], [5, 82], [11, 82], [0, 100], [-11, 82], [-5, 82], [0, 0]];
-const base = 100;
+// const template = [[0, 0], [5, 82], [11, 82], [0, 100], [-11, 82], [-5, 82], [0, 0]];
+// const base = 100;
 
 /**
- * 
- * @param {*} ctx 
+ *
+ * @param {*} ctx
  * @param {*} p1 箭头起点
  * @param {*} p2 箭头终点
  */
@@ -20,8 +20,8 @@ export default function getArrowVertex(ctx, p1, p2) {
     }
     const sina = -(p2.x - p1.x) / p1_p2;//旋转角度的正弦值
     const cosa = (p2.y - p1.y) / p1_p2;//余弦值
-    const innerR = Math.sqrt(innerOffset * innerOffset + (p1_p2 - topOffset) * (p1_p2 - topOffset));//内转点到起点的距离
-    const outerR = Math.sqrt(outerOffset * outerOffset + (p1_p2 - topOffset) * (p1_p2 - topOffset));//外转点到起点的距离
+    // const innerR = Math.sqrt(innerOffset * innerOffset + (p1_p2 - topOffset) * (p1_p2 - topOffset));//内转点到起点的距离
+    // const outerR = Math.sqrt(outerOffset * outerOffset + (p1_p2 - topOffset) * (p1_p2 - topOffset));//外转点到起点的距离
     //内转点的原始坐标（左边）
     const lInnerx = p1.x + innerOffset;
     const lInnery = p1.y + p1_p2 - topOffset;

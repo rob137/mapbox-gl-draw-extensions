@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>mapbox-gl-draw-extensions</title>
-    <!-- <link rel="stylesheet" href="./styles/mapbox-gl.css">
+    <link rel="stylesheet" href="./styles/mapbox-gl.css">
     <link rel="stylesheet" href="../dist/mapbox-gl-draw-extensions.css">
-    <link rel="stylesheet" href="./styles/index.css"> -->
+    <link rel="stylesheet" href="./styles/index.css">
     <style>
         html,
         body,
@@ -24,10 +24,10 @@
 
 <body>
     <div id="map"></div>
-    <!-- <script src="./mine-map/minemap.js"></script>
-    <script src="../dist/mapbox-gl-draw-extensions.js"></script> -->
+    <script src="./mine-map/minemap.js"></script>
+    <script src="../dist/mapbox-gl-draw-extensions.js"></script>
 </body>
-<!-- <script>
+<script>
     minemap.domainUrl = '//minedata.cn';
     minemap.dataDomainUrl = '//datahive.minedata.cn';
     minemap.spriteUrl = '//minedata.cn/minemapapi/v1.3/sprite/sprite';
@@ -175,23 +175,18 @@
         }
     ];
 
-    const Draw = new MapboxDraw({
-        // styles: customStyles,
-        // defaultMode: 'RotateMode',
-        // modes: Object.assign(
-        //     { RotateMode: RotateMode }
-        //     , MapboxDraw.modes)
+    const Draw = new MapboxDraw.init(map, {
+        boxSelect: true,
+        touchEnabled: false,
+        displayControlsDefault: true,
+        showButtons: true,
+        styles: customStyles
     });
-    // Map#addControl takes an optional second argument to set the position of the control.
-    // If no position is specified the control defaults to `top-right`. See the docs 
-    // for more details: https://www.mapbox.com/mapbox-gl-js/api/map#addcontrol
-
-    map.addControl(Draw, 'top-left');
 
     map.on('load', function () {
         // Draw.changeMode('RotateMode');
         // Draw.changeMode('simple_select');
     });
-</script> -->
+</script>
 
 </html>

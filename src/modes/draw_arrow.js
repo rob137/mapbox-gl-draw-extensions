@@ -1,10 +1,7 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-import isEventAtCoordinates from '../lib/is_event_at_coordinates';
-import createVertex from '../lib/create_vertex';
 import getArrowVertex from '../lib/getArrowVertex';
-import constants from '../constants';
 
 const DrawArrow = {};
 let center = {
@@ -34,8 +31,8 @@ DrawArrow.onSetup = function () {
     return {
         arrow,
         currentClickNum: 0
-    }
-}
+    };
+};
 
 DrawArrow.onMouseMove = function (state, e) {
     let { arrow, currentClickNum } = state;
@@ -54,7 +51,7 @@ DrawArrow.onMouseMove = function (state, e) {
         this.updateUIClasses({ mouse: Constants.cursors.POINTER });
     }
     state = Object.assign(state, { currentClickNum, arrow });
-}
+};
 
 DrawArrow.onClick = function (state, e) {
     let { arrow, currentClickNum } = state;
@@ -69,10 +66,10 @@ DrawArrow.onClick = function (state, e) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
     }
     state = Object.assign(state, { currentClickNum, arrow });
-}
+};
 
-DrawArrow.onKeyUp = function (state, e) {
-    let { arrow, currentClickNum } = state;
+DrawArrow.onKeyUp = function (state) {
+    let { arrow } = state;
     if (CommonSelectors.isEscapeKey) {
         this.deleteFeature([arrow.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT);
@@ -80,10 +77,10 @@ DrawArrow.onKeyUp = function (state, e) {
     if (CommonSelectors.isEnterKey) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
     }
-}
+};
 
-DrawArrow.onStop = function (state, e) {
-    let { arrow, currentClickNum } = state;
+DrawArrow.onStop = function (state) {
+    let { arrow } = state;
     this.updateUIClasses({ mouse: Constants.cursors.NONE });
     const initialDoubleClickZoomState = this.map ? this.map.doubleClickZoom.isEnabled() : true;
     if (initialDoubleClickZoomState) {
@@ -101,12 +98,12 @@ DrawArrow.onStop = function (state, e) {
         this.deleteFeature([arrow.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
     }
-}
+};
 
 DrawArrow.toDisplayFeatures = function (state, geojson, display) {
-    let { arrow, currentClickNum } = state;
+    let { arrow } = state;
     const isActivePolygon = geojson.properties.id === arrow.id;
-    geojson.properties.active = (isActivePolygon) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+    geojson.properties.active = isActivePolygon ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     if (!isActivePolygon) return display(geojson);
 
     if (geojson.geometry.coordinates.length === 0) return;
@@ -131,12 +128,12 @@ DrawArrow.toDisplayFeatures = function (state, geojson, display) {
             type: Constants.geojsonTypes.LINE_STRING
         }
     });
-}
+};
 
 DrawArrow.onTrash = function (state) {
-    let { arrow, currentClickNum } = state;
+    let { arrow } = state;
     this.deleteFeature([arrow.id], { silent: true });
     this.changeMode(Constants.modes.SIMPLE_SELECT);
-}
+};
 
 export default DrawArrow;

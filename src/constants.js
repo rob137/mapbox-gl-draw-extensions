@@ -3,7 +3,7 @@ export default {
         CONTROL_BASE: 'mapboxgl-ctrl',
         CONTROL_PREFIX: 'mapboxgl-ctrl-',
         CONTROL_BUTTON: 'mapbox-gl-draw_ctrl-draw-btn',
-        CONTROL_BUTTON_CIRCLE: 'mapbox-gl-draw_circle',  // +
+        CONTROL_BUTTON_CIRCLE: 'mapbox-gl-draw_circle', // +
         CONTROL_BUTTON_TRIANGLE: 'mapbox-gl-draw_triangle',
         CONTROL_BUTTON_RECTANGLE: 'mapbox-gl-draw_rectangle',
         CONTROL_BUTTON_SECTOR: 'mapbox-gl-draw_sector',
@@ -31,7 +31,7 @@ export default {
         NONE: 'none'
     },
     types: {
-        CIRCLE: "circle",  // + 
+        CIRCLE: 'circle', // +
         POLYGON: 'polygon',
         LINE: 'line_string',
         POINT: 'point',
@@ -41,7 +41,7 @@ export default {
         ARROW: 'arrow',
     },
     geojsonTypes: {
-        CIRCLE: "Circle", // + 
+        CIRCLE: 'Circle', // +
         TRIANGLE: 'Triangle',
         RECTANGLE: 'Rectangle',
         SECTOR: 'Sector',
@@ -57,7 +57,7 @@ export default {
         MULTI_POLYGON: 'MultiPolygon'
     },
     modes: {
-        DRAW_CIRCLE: 'draw_circle', // + 
+        DRAW_CIRCLE: 'draw_circle', // +
         DRAW_TRIANGLE: 'draw_triangle',
         DRAW_RECTANGLE: 'draw_rectangle',
         DRAW_SECTOR: 'draw_sector',
@@ -79,7 +79,7 @@ export default {
         RENDER: 'draw.render',
         COMBINE_FEATURES: 'draw.combine',
         UNCOMBINE_FEATURES: 'draw.uncombine',
-        // new 
+        // new
         REPLACE: 'draw.replace',
         RECORD_CREATE: 'draw.record.create',
         UNDO: 'draw.undo',

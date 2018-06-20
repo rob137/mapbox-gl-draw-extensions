@@ -8,26 +8,16 @@ export default function createSupplementaryPoints(geojson, options = {}, basePat
 
     let supplementaryPoints = [];
 
-    if (type === Constants.geojsonTypes.POINT) {
-        // For points, just create a vertex
-        supplementaryPoints.push(createVertex(featureId, coordinates, basePath, isSelectedPath(basePath)));
-    } else if (type === Constants.geojsonTypes.POLYGON) {
-        // Cycle through a Polygon's rings and
-        // process each line
-        coordinates.forEach((line, lineIndex) => {
-            processLine(line, (basePath !== null) ? `${basePath}.${lineIndex}` : String(lineIndex));
-        });
-    } else if (type === Constants.geojsonTypes.LINE_STRING) {
-        processLine(coordinates, basePath);
-    } else if (type.indexOf(Constants.geojsonTypes.MULTI_PREFIX) === 0) {
-        processMultiGeometry();
+    function isSelectedPath(path) {
+        if (!options.selectedPaths) return false;
+        return options.selectedPaths.indexOf(path) !== -1;
     }
 
     function processLine(line, lineBasePath) {
         let firstPointString = '';
         let lastVertex = null;
         line.forEach((point, pointIndex) => {
-            const pointPath = (lineBasePath !== undefined && lineBasePath !== null) ? `${lineBasePath}.${pointIndex}` : String(pointIndex);
+            const pointPath = lineBasePath !== undefined && lineBasePath !== null ? `${lineBasePath}.${pointIndex}` : String(pointIndex);
             const vertex = createVertex(featureId, point, pointPath, isSelectedPath(pointPath));
 
             // If we're creating midpoints, check if there was a
@@ -54,10 +44,6 @@ export default function createSupplementaryPoints(geojson, options = {}, basePat
         });
     }
 
-    function isSelectedPath(path) {
-        if (!options.selectedPaths) return false;
-        return options.selectedPaths.indexOf(path) !== -1;
-    }
 
     // Split a multi-geometry into constituent
     // geometries, and accumulate the supplementary points
@@ -75,6 +61,22 @@ export default function createSupplementaryPoints(geojson, options = {}, basePat
             };
             supplementaryPoints = supplementaryPoints.concat(createSupplementaryPoints(subFeature, options, index));
         });
+    }
+
+
+    if (type === Constants.geojsonTypes.POINT) {
+        // For points, just create a vertex
+        supplementaryPoints.push(createVertex(featureId, coordinates, basePath, isSelectedPath(basePath)));
+    } else if (type === Constants.geojsonTypes.POLYGON) {
+        // Cycle through a Polygon's rings and
+        // process each line
+        coordinates.forEach((line, lineIndex) => {
+            processLine(line, basePath !== null ? `${basePath}.${lineIndex}` : String(lineIndex));
+        });
+    } else if (type === Constants.geojsonTypes.LINE_STRING) {
+        processLine(coordinates, basePath);
+    } else if (type.indexOf(Constants.geojsonTypes.MULTI_PREFIX) === 0) {
+        processMultiGeometry();
     }
 
     return supplementaryPoints;

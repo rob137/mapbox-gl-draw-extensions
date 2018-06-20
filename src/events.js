@@ -9,7 +9,7 @@ import objectToMode from './modes/object_to_mode';
 
 export default function (ctx) {
     console.log(ctx.options.modes);
-    // 生成一个包含所有 modes 及其 
+    // 生成一个包含所有 modes 及其
     const modes = Object.keys(ctx.options.modes).reduce((m, k) => {
         // ctx.options.modes[k]=> modes 通过index.js 暴露的`Object`
         m[k] = objectToMode(ctx.options.modes[k]);
@@ -128,7 +128,7 @@ export default function (ctx) {
 
     // 8 - Backspace
     // 46 - Delete
-    const isKeyModeValid = (code) => !(code === 8 || code === 46 || (code >= 48 && code <= 57));
+    const isKeyModeValid = (code) => !(code === 8 || code === 46 || code >= 48 && code <= 57);
 
     events.keydown = function (event) {
         if ((event.srcElement || event.target).classList[0] !== 'mapboxgl-canvas') return; // we only handle events on the map
@@ -284,4 +284,4 @@ export default function (ctx) {
     };
 
     return api;
-};
+}

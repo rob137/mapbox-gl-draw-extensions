@@ -59,7 +59,7 @@ export default class Store {
     }
     /**
      * 设置 `feature`的状态为`changed`
-     * @param {string} featureId 
+     * @param {string} featureId
      */
     featureChanged(featureId) {
         this._changedFeatureIds.add(featureId);
@@ -80,7 +80,7 @@ export default class Store {
     }
     /**
      * 添加一个`feature`至`store`.
-     * @param {Object} feature 
+     * @param {Object} feature
      */
     add(feature) {
         this.featureChanged(feature.id);
@@ -89,9 +89,9 @@ export default class Store {
         return this;
     }
     /**
-     * 
-     * @param {string | Array<string>} featureIds 
-     * @param {Object} options 
+     *
+     * @param {string | Array<string>} featureIds
+     * @param {Object} options
      * @param {Object} options.silent 如果设置为true，则不会`fire`一个`event`;
      */
     delete(featureIds, options = {}) {
@@ -129,8 +129,8 @@ export default class Store {
     }
     /**
      * 从当前选中的集合中删除`features`;
-     * @param {string|Array<string>} featureIds 
-     * @param {Object} options 
+     * @param {string|Array<string>} featureIds
+     * @param {Object} options
      */
     deselect(featureIds, options = {}) {
         toDenseArray(featureIds).forEach(id => {

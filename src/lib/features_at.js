@@ -9,19 +9,10 @@ const META_TYPES = [
     Constants.meta.VERTEX
 ];
 
-
-function featuresAtClick(event, bbox, ctx) {
-    return featuresAt(event, bbox, ctx, ctx.options.clickBuffer);
-}
-
-function featuresAtTouch(event, bbox, ctx) {
-    return featuresAt(event, bbox, ctx, ctx.options.touchBuffer);
-}
-
 function featuresAt(event, bbox, ctx, buffer) {
     if (ctx.map === null) return [];
 
-    const box = (event) ? mapEventToBoundingBox(event, buffer) : bbox;
+    const box = event ? mapEventToBoundingBox(event, buffer) : bbox;
 
     const queryParams = {};
     if (ctx.options.styles) queryParams.layers = ctx.options.styles.map(s => s.id);
@@ -43,7 +34,15 @@ function featuresAt(event, bbox, ctx, buffer) {
     return sortFeatures(uniqueFeatures);
 }
 
+function featuresAtClick(event, bbox, ctx) {
+    return featuresAt(event, bbox, ctx, ctx.options.clickBuffer);
+}
+
+function featuresAtTouch(event, bbox, ctx) {
+    return featuresAt(event, bbox, ctx, ctx.options.touchBuffer);
+}
+
 export default {
     click: featuresAtClick,
     touch: featuresAtTouch
-}
+};

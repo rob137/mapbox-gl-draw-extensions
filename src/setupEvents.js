@@ -27,7 +27,7 @@ const eventsAction = {
 let ctx = {
     type: eventsType,
     action: eventsAction
-}
+};
 
 // events = Object.keys(events).reduce((accumulator, currentKey) => {
 //     const currentValue = events[currentKey];
@@ -41,7 +41,7 @@ let ctx = {
 // }, {});
 
 export default function (draw, map, history, container) {
-
+    let api = null;
     const eventsApi = Object.assign({}, {
         onDrawCreate: function (evt) {
             const record = new Record(3, 0, evt.features);
@@ -96,7 +96,7 @@ export default function (draw, map, history, container) {
         }
     });
 
-    const api = {
+    api = {
         addEventListeners: function () {
             if (!map) return;
             map.on(constants.events.CREATE, eventsApi.onDrawCreate);
@@ -135,7 +135,7 @@ export default function (draw, map, history, container) {
                                     }));
                                 });
                                 const featureIds = features.map(f => f.id);
-                                draw.changeMode(constants.modes.SIMPLE_SELECT, { featureIds })
+                                draw.changeMode(constants.modes.SIMPLE_SELECT, { featureIds });
                             }
                             break;
                         case 2:
@@ -248,6 +248,7 @@ export default function (draw, map, history, container) {
                 }
             }
         }
-    }
+    };
+
     return api;
 }

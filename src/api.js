@@ -159,7 +159,7 @@ export default function (ctx, api = {}) {
     api.changeMode = function (mode, modeOptions = {}) {
         // 使用`re-select`，而不是`changeMode`,避免因为重新改变modes造成的性能浪费
         if (mode === Constants.modes.SIMPLE_SELECT && api.getMode() === Constants.modes.SIMPLE_SELECT) {
-            if (stringSetsAreEqual((modeOptions.featureIds || []), ctx.store.getSelectedIds())) return api;
+            if (stringSetsAreEqual(modeOptions.featureIds || [], ctx.store.getSelectedIds())) return api;
             // 如果我们切换选择的都是`simple_select mode`，则直接切换。
             // 不需要停止，重启mode
             ctx.store.setSelected(modeOptions.featureIds, { silent: true });
@@ -201,6 +201,6 @@ export default function (ctx, api = {}) {
     };
 
     return api;
-};
+}
 
 

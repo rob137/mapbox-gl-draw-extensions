@@ -1,16 +1,14 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-import isEventAtCoordinates from '../lib/is_event_at_coordinates';
+// import isEventAtCoordinates from '../lib/is_event_at_coordinates';
 import createVertex from '../lib/create_vertex';
 import createGeoJSONRectangle from '../lib/create_geo_json_rectangle';
-
-
 
 const DrawRectangle = {};
 
 
-DrawRectangle.onSetup = function (opts) {
+DrawRectangle.onSetup = function () {
     let rectangle = this.newFeature({
         type: Constants.geojsonTypes.FEATURE,
         properties: { '_type_': Constants.geojsonTypes.RECTANGLE },
@@ -49,7 +47,7 @@ DrawRectangle.onClick = function (state, e) {
     rectangle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
     state = Object.assign(state, { rectangle, currentVertexPosition });
-}
+};
 
 DrawRectangle.onMouseMove = function (state, e) {
     let { rectangle, currentVertexPosition } = state;
@@ -63,7 +61,7 @@ DrawRectangle.onMouseMove = function (state, e) {
         this.updateUIClasses({ mouse: Constants.cursors.POINTER });
     }
     state = Object.assign(state, { currentVertexPosition, rectangle });
-}
+};
 
 DrawRectangle.onStop = function (state) {
     let { rectangle, currentVertexPosition } = state;
@@ -80,12 +78,12 @@ DrawRectangle.onStop = function (state) {
         this.deleteFeature([rectangle.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
     }
-}
+};
 
 DrawRectangle.toDisplayFeatures = function (state, geojson, display) {
-    let { rectangle, currentVertexPosition } = state;
+    let { rectangle } = state;
     const isActiveRectangle = geojson.properties.id === rectangle.id;
-    const parentClass = rectangle.properties.class;
+    // const parentClass = rectangle.properties.class;
     geojson.properties.active = isActiveRectangle ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
 
     if (!isActiveRectangle) return display(geojson);
@@ -103,6 +101,6 @@ DrawRectangle.toDisplayFeatures = function (state, geojson, display) {
     }
 
     return display(geojson);
-}
+};
 
 export default DrawRectangle;

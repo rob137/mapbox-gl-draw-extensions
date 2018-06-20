@@ -6,8 +6,6 @@ import doubleClickZoom from '../lib/double_click_zoom';
 import moveFeatures from '../lib/move_features';
 import Constants from '../constants';
 
-
-
 const SimpleSelect = {};
 
 SimpleSelect.onSetup = function (opts) {
@@ -291,7 +289,7 @@ SimpleSelect.onMouseUp = function (state, e) {
 };
 
 SimpleSelect.toDisplayFeatures = function (state, geojson, display) {
-    geojson.properties.active = (this.isSelected(geojson.properties.id)) ?
+    geojson.properties.active = this.isSelected(geojson.properties.id) ?
         Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
     display(geojson);
     this.fireActionable();
