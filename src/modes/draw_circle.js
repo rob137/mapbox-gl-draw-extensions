@@ -6,8 +6,6 @@ import Constants from '../constants';
 import distance from '../lib/geo_distance';
 import createGeoJSONCircle from '../lib/create_geo_json_circle';
 
-
-
 const DrawCircle = {};
 
 DrawCircle.onSetup = function () {
