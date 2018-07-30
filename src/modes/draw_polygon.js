@@ -56,9 +56,9 @@ DrawPolygon.onMouseMove = function (state, e) {
 
 DrawPolygon.onTap = DrawPolygon.onClick = function (state, e) {
     if (CommonSelectors.isVertex(e)) return this.clickOnVertex(state, e);
-    this.map.fire(Constants.events.CLICK, {
-        features: [state.polygon.toGeoJSON()]
-    });
+    this.map.fire(Constants.events.CLICK, Object.assign(e, {
+        features: [state.polygon.toGeoJSON()],
+    }));
     return this.clickAnywhere(state, e);
 };
 

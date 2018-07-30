@@ -61,9 +61,9 @@ DrawCircle.onClick = function (state, e) {
     const coords = createGeoJSONCircle([e.lngLat.lng, e.lngLat.lat], 0);
     circle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
-    this.map.fire(Constants.events.CLICK, {
-        features: [state.circle.toGeoJSON()]
-    });
+    this.map.fire(Constants.events.CLICK, Object.assign(e, {
+        features: [state.circle.toGeoJSON()],
+    }));
     state = Object.assign(state, { currentVertexPosition, circle });
 };
 
@@ -91,7 +91,6 @@ DrawCircle.onStop = function (state) {
             features: [circle.toGeoJSON()]
         });
     } else {
-        debugger;
         this.deleteFeature([circle.id], { silent: true });
         this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
     }
@@ -109,7 +108,6 @@ DrawCircle.toDisplayFeatures = function (state, geojson, display) {
     const coordinateCount = geojson.geometry.coordinates[0].length;
 
     if (coordinateCount < 3) return;
-
     geojson.properties.meta = Constants.meta.FEATURE;
 
 

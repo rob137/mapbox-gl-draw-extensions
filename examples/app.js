@@ -1,5 +1,6 @@
-// const { access_token } = require('./config');
-const minemap = require('./mine-map/minemap');
+const { access_token } = require('./config');
+// const minemap = require('./mine-map/minemap');
+import mapboxgl from '../node_modules/mapbox-gl';
 import MapboxDraw from '../index';
 
 // css
@@ -7,21 +8,26 @@ import './styles/mapbox-gl.css';
 import '../dist/mapbox-gl-draw-extensions.css';
 import './styles/index.css';
 
-minemap.domainUrl = '//minedata.cn';
-minemap.dataDomainUrl = '//datahive.minedata.cn';
-minemap.spriteUrl = '//minedata.cn/minemapapi/v1.3/sprite/sprite';
-minemap.serviceUrl = '//minedata.cn/service';
-//minemap.accessToken = '25cc55a69ea7422182d00d6b7c0ffa93';
-minemap.accessToken = '25cc55a66b7c0ffa93';
-minemap.solution = 2365;
+// minemap.domainUrl = '//minedata.cn';
+// minemap.dataDomainUrl = '//datahive.minedata.cn';
+// minemap.spriteUrl = '//minedata.cn/minemapapi/v1.3/sprite/sprite';
+// minemap.serviceUrl = '//minedata.cn/service';
+// //minemap.accessToken = '25cc55a69ea7422182d00d6b7c0ffa93';
+// minemap.accessToken = '25cc55a66b7c0ffa93';
+// minemap.solution = 2365;
 
-const map = new minemap.Map({
+
+// const map = new minemap.Map({
+//     container: 'map',
+//     style: '//minedata.cn/service/solu/style/id/2365',
+//     center: [120.5445842200, 31.2961764700],
+//     zoom: 14
+// });
+mapboxgl.accessToken = access_token;
+var map = new mapboxgl.Map({
     container: 'map',
-    style: '//minedata.cn/service/solu/style/id/2365',
-    center: [120.5445842200, 31.2961764700],
-    zoom: 14
+    style: 'mapbox://styles/mapbox/streets-v9'
 });
-
 
 const customStyles = [
     // points
@@ -188,3 +194,10 @@ map.on('draw.click', function (e) {
     console.log(`我绘制的是一个${e.features[0].properties._type_}`, e.features);
 });
 
+map.on('draw.click', function () {
+    console.log('又是特么一个事件');
+});
+
+// map.on('mouseenter', function () {
+//     console.log('111');
+// });

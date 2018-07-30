@@ -98,9 +98,9 @@ DrawLineString.onMouseMove = function (state, e) {
 DrawLineString.onTap = DrawLineString.onClick = function (state, e) {
     if (CommonSelectors.isVertex(e)) return this.clickOnVertex(state, e);
     this.clickAnywhere(state, e);
-    this.map.fire(Constants.events.CLICK, {
-        features: [state.line.toGeoJSON()]
-    });
+    this.map.fire(Constants.events.CLICK, Object.assign(e, {
+        features: [state.line.toGeoJSON()],
+    }));
 };
 
 DrawLineString.onKeyUp = function (state, e) {

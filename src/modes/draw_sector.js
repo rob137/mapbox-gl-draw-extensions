@@ -66,9 +66,9 @@ DrawSector.onClick = function (state, e) {
         sector.offset = offset;
     }
     currentVertexPosition++;
-    this.map.fire(Constants.events.CLICK, {
-        features: [state.sector.toGeoJSON()]
-    });
+    this.map.fire(Constants.events.CLICK, Object.assign(e, {
+        features: [state.sector.toGeoJSON()],
+    }));
     state = Object.assign(state, { currentVertexPosition, sector });
 };
 
@@ -111,7 +111,7 @@ DrawSector.onStop = function (state) {
     sector.removeCoordinate(`0.${currentVertexPosition}`);
     if (sector.isValid()) {
         this.map.fire(Constants.events.CREATE, {
-            features: [sector.toGeoJSON]
+            features: [sector.toGeoJSON()]
         });
     } else {
         this.deleteFeature([sector.id], { slient: true });

@@ -60,7 +60,7 @@ export default [
             'line-join': 'round'
         },
         'paint': {
-            'line-color': '#fbb03b',
+            'line-color': '#D20C0C',
             'line-dasharray': [0.2, 2],
             'line-width': 2
         }
@@ -94,7 +94,7 @@ export default [
             'line-join': 'round'
         },
         'paint': {
-            'line-color': '#fbb03b',
+            'line-color': '#D20C0C',
             'line-dasharray': [0.2, 2],
             'line-width': 2
         }
@@ -122,7 +122,7 @@ export default [
         ],
         'paint': {
             'circle-radius': 3,
-            'circle-color': '#fbb03b'
+            'circle-color': '#D20C0C'
         }
     },
     {
@@ -176,7 +176,7 @@ export default [
             ['==', 'active', 'true']],
         'paint': {
             'circle-radius': 5,
-            'circle-color': '#fbb03b'
+            'circle-color': '#D20C0C'
         }
     },
     {

@@ -65,9 +65,9 @@ DrawArrow.onClick = function (state, e) {
     if (CommonSelectors.isVertex(e)) {
         this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [arrow.id] });
     }
-    this.map.fire(Constants.events.CLICK, {
-        features: [state.arrow.toGeoJSON()]
-    });
+    this.map.fire(Constants.events.CLICK, Object.assign(e, {
+        features: [state.arrow.toGeoJSON()],
+    }));
     state = Object.assign(state, { currentClickNum, arrow });
 };
 
