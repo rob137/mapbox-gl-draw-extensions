@@ -151,6 +151,8 @@ export default function (ctx, api = {}) {
             ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
         } else {
             ctx.store.render();
+            //Fixed:绘制过程中删除元素，mode不变
+            ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
         }
 
         return api;

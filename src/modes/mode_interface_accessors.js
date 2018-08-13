@@ -4,6 +4,7 @@ import Point from '../feature_types/point';
 import LineString from '../feature_types/line_string';
 import Polygon from '../feature_types/polygon';
 import MultiFeature from '../feature_types/multi_feature';
+import Sector from '../feature_types/sector';
 
 export default class ModeInterface {
     constructor(ctx) {
@@ -81,8 +82,22 @@ export default class ModeInterface {
         if (type === Constants.geojsonTypes.POINT) return new Point(this._ctx, geojson);
         if (type === Constants.geojsonTypes.LINE_STRING) return new LineString(this._ctx, geojson);
         if (type === Constants.geojsonTypes.POLYGON) return new Polygon(this._ctx, geojson);
-        //if (_type_ === Constants.geojsonTypes.ARROW) return new Arrow(this._ctx, geojson);
         return new MultiFeature(this._ctx, geojson);
+    }
+    newRectangle() {
+
+    }
+    newTriangle() {
+
+    }
+    newSector(geojson) {
+        return new Sector(this._ctx, geojson);
+    }
+    newEllipse() {
+
+    }
+    newArc() {
+
     }
     isInstanceOf(type, feature) {
         if (type === Constants.geojsonTypes.POINT) return feature instanceof Point;

@@ -1,8 +1,6 @@
 import CommonSelectors from '../lib/common_selectors';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
-// import isEventAtCoordinates from '../lib/is_event_at_coordinates';
-// import createVertex from '../lib/create_vertex';
 import distance from '../lib/geo_distance';
 import createGeoJSONCircle from '../lib/create_geo_json_circle';
 

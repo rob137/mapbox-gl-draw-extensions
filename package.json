@@ -32,6 +32,7 @@
     "bezier": "^0.1.0",
     "hat": "0.0.3",
     "lodash.isequal": "^4.2.0",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.1",
+    "@turf/turf": "^5.1.6"
   }
 }

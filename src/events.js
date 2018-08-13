@@ -63,7 +63,6 @@ export default function (ctx) {
     };
 
     events.mouseup = function (event) {
-        console.log(event);
         const target = getFeaturesAndSetCursor(event, ctx);
         event.featureTarget = target;
 
