@@ -42,8 +42,8 @@ DrawRectangle.onClick = function (state, e) {
     }
 
     this.updateUIClasses({ mouse: Constants.cursors.ADD });
-    rectangle.ltPoint = [e.lngLat.lng, e.lngLat.lat];
-    const coords = createGeoJSONRectangle(rectangle.ltPoint, rectangle.ltPoint);
+    rectangle.onePoint = [e.lngLat.lng, e.lngLat.lat];
+    const coords = createGeoJSONRectangle(rectangle.onePoint, rectangle.onePoint);
     rectangle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
     this.map.fire(Constants.events.CLICK, Object.assign(e, {
@@ -55,9 +55,10 @@ DrawRectangle.onClick = function (state, e) {
 DrawRectangle.onMouseMove = function (state, e) {
     let { rectangle, currentVertexPosition } = state;
     if (currentVertexPosition === 0) return;
-    const rbPoint = [e.lngLat.lng, e.lngLat.lat];
-    rectangle.rbPoint = rbPoint;
-    const coords = createGeoJSONRectangle(rectangle.ltPoint, rbPoint);
+    //right-top-point
+    const threePoint = [e.lngLat.lng, e.lngLat.lat];
+    rectangle.threePoint = threePoint;
+    const coords = createGeoJSONRectangle(rectangle.onePoint, threePoint);
     rectangle.setCoordinates([coords]);
     currentVertexPosition = coords.length;
     if (CommonSelectors.isVertex(e)) {
@@ -96,12 +97,12 @@ DrawRectangle.toDisplayFeatures = function (state, geojson, display) {
 
     geojson.properties.meta = Constants.meta.FEATURE;
     display(createVertex(rectangle.id, geojson.geometry.coordinates[0][0], '0.0', false));
-    if (coordinateCount > 5) {
-        const endPos = geojson.geometry.coordinates[0].length - 4;
-        display(
-            createVertex(rectangle.id, geojson.geometry.coordinates[0][endPos], `0.${endPos}`, false)
-        );
-    }
+    // if (coordinateCount > 5) {
+    //     const endPos = geojson.geometry.coordinates[0].length - 4;
+    //     display(
+    //         createVertex(rectangle.id, geojson.geometry.coordinates[0][endPos], `0.${endPos}`, false)
+    //     );
+    // }
 
     return display(geojson);
 };

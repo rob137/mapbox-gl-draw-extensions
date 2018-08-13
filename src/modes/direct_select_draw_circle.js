@@ -1,41 +1,13 @@
-/**
- * direct_select模式，由simple_select转化而来
- * direct_select模式支持几何图形的在编辑
- * `DRAG_HANDLER`记录了几何图形在编辑时对应的几种方式，其中扇形默认只修改角度，不对半径进行修改
- * 处于编辑模式时，矩形和三角形`中间点编辑`功能被禁
- */
 import createSupplementaryPoints from '../lib/create_supplementary_points';
 import constrainFeatureMovement from '../lib/constrain_feature_movement';
 import doubleClickZoom from '../lib/double_click_zoom';
 import Constants from '../constants';
 import CommonSelectors from '../lib/common_selectors';
 import moveFeatures from '../lib/move_features';
-import createGeoJsonCircle from '../lib/create_geo_json_circle';
-import createGeoJSONRectangle from '../lib/create_geo_json_rectangle';
-import geoDistance from '../lib/geo_distance';
-import * as turf from '@turf/turf';
-
 
 const { noTarget, isOfMetaType, isInactiveFeature, isShiftDown } = CommonSelectors;
 const isVertex = isOfMetaType(Constants.meta.VERTEX);
 const isMidpoint = isOfMetaType(Constants.meta.MIDPOINT);
-
-const GEO_JSON_TYPES = Constants.geojsonTypes;
-
-const DRAG_HANDLER = {
-    [GEO_JSON_TYPES.CIRCLE]: 'dragCircle',
-    [GEO_JSON_TYPES.TRIANGLE]: 'dragVertex',
-    [GEO_JSON_TYPES.RECTANGLE]: 'dragRectangle',
-    [GEO_JSON_TYPES.SECTOR]: 'dragSector',
-    [GEO_JSON_TYPES.ARROW]: 'dragVertex',
-    [GEO_JSON_TYPES.BEZIERARROW]: 'dragVertex',
-    [GEO_JSON_TYPES.FEATURE]: 'dragVertex',
-    [GEO_JSON_TYPES.LINE_STRING]: 'dragVertex',
-    [GEO_JSON_TYPES.FEATURE_COLLECTION]: 'dragVertex',
-    [GEO_JSON_TYPES.MULTI_PREFIX]: 'dragVertex',
-    [GEO_JSON_TYPES.MULTI_LINE_STRING]: 'dragVertex',
-    [GEO_JSON_TYPES.MULTI_POLYGON]: 'dragVertex',
-};
 
 const DirectSelect = {};
 
@@ -60,13 +32,6 @@ DirectSelect.startDragging = function (state, e) {
     this.map.dragPan.disable();
     state.canDragMove = true;
     state.dragMoveLocation = e.lngLat;
-    const type = state.feature.properties['_type_'];
-    if (type === 'Rectangle') {
-        const paths = state.selectedCoordPaths[0];
-        const index = + paths.split('.')[1];
-        const otherIndex = index >= 2 ? index - 2 : index + 2;
-        state.feature.onePoint = state.feature.coordinates[0][otherIndex];
-    }
 };
 
 DirectSelect.stopDragging = function (state) {
@@ -91,8 +56,6 @@ DirectSelect.onVertex = function (state, e) {
 };
 
 DirectSelect.onMidpoint = function (state, e) {
-    const type = state.feature.properties['_type_'];
-    if (type === GEO_JSON_TYPES.RECTANGLE || type === GEO_JSON_TYPES.TRIANGLE) return;
     this.startDragging(state, e);
     const about = e.featureTarget.properties;
     state.feature.addCoordinate(about.coord_path, about.lng, about.lat);
@@ -113,7 +76,7 @@ DirectSelect.dragFeature = function (state, e, delta) {
     moveFeatures(this.getSelected(), delta);
     state.dragMoveLocation = e.lngLat;
 };
-//拖动顶点
+
 DirectSelect.dragVertex = function (state, e, delta) {
     const selectedCoords = state.selectedCoordPaths.map(coord_path => state.feature.getCoordinate(coord_path));
     const selectedCoordPoints = selectedCoords.map(coords => ({
@@ -130,38 +93,6 @@ DirectSelect.dragVertex = function (state, e, delta) {
         const coord = selectedCoords[i];
         state.feature.updateCoordinate(state.selectedCoordPaths[i], coord[0] + constrainedDelta.lng, coord[1] + constrainedDelta.lat);
     }
-};
-//拖动circle时
-DirectSelect.dragCircle = function (state, e) {
-    const { feature } = state;
-    if (!feature) return;
-    const center = feature.center;
-    const radius = geoDistance(center[1], center[0], e.lngLat.lat, e.lngLat.lng);
-    const coords = createGeoJsonCircle(center, radius);
-    feature.setCoordinates([coords]);
-};
-//拖动rectangle时
-DirectSelect.dragRectangle = function (state, e) {
-    const { feature } = state;
-    if (!feature) return;
-    const startPoint = feature.onePoint;
-    const endPoint = [e.lngLat.lng, e.lngLat.lat];
-    const coords = createGeoJSONRectangle(startPoint, endPoint);
-    feature.setCoordinates([coords]);
-};
-//拖动扇形时
-DirectSelect.dragSector = function (state, e) {
-    const { feature } = state;
-    if (!feature) return;
-    const center = feature.center;
-    const pos1 = feature.start;
-    let bearing1 = turf.bearing(center, pos1);
-    let bearing2 = turf.bearing(center, [e.lngLat.lng, e.lngLat.lat]);
-    //计算半径
-    let radius = turf.distance(center, pos1);
-    //生成扇形坐标
-    const sector = turf.sector(center, radius, bearing1, bearing2).geometry.coordinates[0].slice(0, -1);
-    feature.setCoordinates([sector]);
 };
 
 DirectSelect.clickNoTarget = function () {
@@ -280,15 +211,9 @@ DirectSelect.onDrag = function (state, e) {
         lng: e.lngLat.lng - state.dragMoveLocation.lng,
         lat: e.lngLat.lat - state.dragMoveLocation.lat
     };
-    const type = state.feature.properties['_type_'];
-    if (state.selectedCoordPaths.length > 0) {
-        // this.dragVertex(state, e, delta);
-        // this.dragRectangle(state, e);
-        this[DRAG_HANDLER[type]](state, e, delta);
-    } else {
-        console.log('2');
-        this.dragFeature(state, e, delta);
-    }
+    if (state.selectedCoordPaths.length > 0) this.dragVertex(state, e, delta);
+    else this.dragFeature(state, e, delta);
+
     state.dragMoveLocation = e.lngLat;
 };
 

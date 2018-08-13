@@ -166,7 +166,7 @@ const Draw = new MapboxDraw.init(map, {
     touchEnabled: false,
     displayControlsDefault: true,
     showButtons: true,
-    styles: customStyles
+    // styles: customStyles
 });
 
 window.map = map;

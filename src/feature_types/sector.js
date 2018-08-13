@@ -62,6 +62,7 @@ export default class Sector extends Feature {
             let start = this.center;
             let end = this.start;
             let pos = [lng, lat];
+            this.pos = pos;
             let bearing1 = turf.bearing(start, end);
             let bearing2 = turf.bearing(start, pos);
             let radius = turf.distance(start, end);

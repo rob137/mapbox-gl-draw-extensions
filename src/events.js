@@ -20,7 +20,7 @@ export default function (ctx) {
     const events = {};
     let currentModeName = null;
     let currentMode = null;
-    const validateMode = [Constants.geojsonTypes.CIRCLE, Constants.geojsonTypes.SECTOR];
+    // const validateMode = [Constants.geojsonTypes.CIRCLE, Constants.geojsonTypes.SECTOR];
 
     events.drag = function (event, isDrag) {
         if (isDrag({
@@ -168,22 +168,22 @@ export default function (ctx) {
         }
     };
     // 解决 画圆时 可以拉顶点的问题
-    function validate(nextModeOptions) {
-        if (nextModeOptions) {
-            const { featureId } = nextModeOptions;
-            if (featureId) {
-                const feature = ctx.store.get(featureId);
-                if (feature && feature.properties) {
-                    const type = feature.properties['_type_'];
-                    if (validateMode.indexOf(type) !== -1) return false;
-                }
-            }
-        }
-        return true;
-    }
+    // function validate(nextModeOptions) {
+    //     if (nextModeOptions) {
+    //         const { featureId } = nextModeOptions;
+    //         if (featureId) {
+    //             const feature = ctx.store.get(featureId);
+    //             if (feature && feature.properties) {
+    //                 const type = feature.properties['_type_'];
+    //                 if (validateMode.indexOf(type) !== -1) return false;
+    //             }
+    //         }
+    //     }
+    //     return true;
+    // }
 
     function changeMode(modename, nextModeOptions, eventOptions = {}) {
-        if (!validate(nextModeOptions)) return;
+        // if (!validate(nextModeOptions)) return;
         currentMode.stop();
         const modebuilder = modes[modename];
         if (modebuilder === undefined) {

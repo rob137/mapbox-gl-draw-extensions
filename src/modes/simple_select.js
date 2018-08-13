@@ -137,6 +137,8 @@ SimpleSelect.clickAnywhere = function (state) {
 };
 
 SimpleSelect.clickOnVertex = function (state, e) {
+    console.log('e',e);
+    console.log('state',state);
     // Enter direct select mode
     this.changeMode(Constants.modes.DIRECT_SELECT, {
         featureId: e.featureTarget.properties.parent,
